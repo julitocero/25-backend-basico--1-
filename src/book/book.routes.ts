@@ -15,9 +15,9 @@ router.post("/create",auth ,createBook);
 
 router.post("/reservar",auth ,reservarBook);
 // Obtener un book por nombre
-router.get("/:id", auth, readBook);
+router.get("/:id",readBook);
 
-router.get("/", auth, readBooks);
+router.get("/",readBooks);
 
 // Actualizar book
 router.patch("/:name", auth, updateBook);

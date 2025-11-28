@@ -4,9 +4,9 @@ import bcrypt from "bcryptjs";
 
 export const registerUserAction = async (req: Request) => {
   try {
-    const { tdocument, ndocument, fname, lname, username, password, rol } = req.body;
+    const { tdocument, ndocument, fname, lname, username, password} = req.body;
 
-    if (!username || !password || !fname || !lname || !tdocument || !ndocument || !rol) {
+    if (!username || !password || !fname || !lname || !tdocument || !ndocument) {
       return { status: 400, data: { message: "Faltan campos obligatorios" } };
     }
 
@@ -27,7 +27,6 @@ export const registerUserAction = async (req: Request) => {
       lname,
       username,
       password: hashed,
-      rol
     });
 
     return {
@@ -39,7 +38,6 @@ export const registerUserAction = async (req: Request) => {
           fname,
           lname,
           username,
-          rol
         }
       }
     };

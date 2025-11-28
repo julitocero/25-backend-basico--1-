@@ -10,7 +10,7 @@ export const deleteUserAction = async (req: Request) => {
     const targetId = req.params.id;
 
     // REGLA DEL PROFESOR
-    if (authId !== targetId && req.user.rol !== "admin") {
+    if (authId !== targetId && !req.user.permissions.includes("disable_user")) {
       return {
         status: 403,
         data: { message: "No tienes permisos para inhabilitar este usuario" }

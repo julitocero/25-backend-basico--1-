@@ -11,7 +11,7 @@ export const updateUserAction = async (req: Request) => {
     const targetId = req.params.id;
 
     // Validaciones de rol
-    if (authId !== targetId && req.user.rol !== "admin") {
+    if (authId !== targetId && !req.user.permissions.includes("update_user")) {
       return {
         status: 403,
         data: { message: "No tienes permisos para modificar este usuario" }

@@ -10,7 +10,7 @@ export const deleteBookAction = async (req: Request) =>{
         }
         const targetID = req.params.id
 
-        if(req.user.rol !== "admin"){
+        if(req.user.permissions.includes("disable_book")){
             return {status: 403, data:{mesage: "No tienes permisos para eliminar este libro"}}
         }
 

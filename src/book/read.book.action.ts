@@ -23,6 +23,11 @@ export const readBooksAction = async (req: Request) => {
     if (name) filters.name = { $regex: name, $options: "i" };
     if (reserved !== undefined) filters.reserved = reserved === "true"; //para volverlo false o true
 
+    const includeInactive = req.query.includeInactive ==="true";
+    if(!includeInactive){
+      filters.isActive = true;
+    }
+
     const p = parseInt(page as string);
     const l = parseInt(limit as string);
     const skip = (p - 1) * l;

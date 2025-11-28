@@ -3,7 +3,13 @@ import { UserModel } from "./user.model";
 
 export const getUserAction = async (req: Request) => {
   try {
-    const user = await UserModel.findOne({ ndocument: req.params.id });
+    
+    const includeInactive = req.query.includeInactive === "true"; 
+    const filter: any = { ndocument: req.params.id };
+    if (!includeInactive) {
+      filter.isActive = true;
+    }
+    const user = await UserModel.findOne(filter);
 
     if (!user) return { status: 404, data: { message: "Usuario no encontrado" } };
 

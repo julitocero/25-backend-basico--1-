@@ -7,6 +7,16 @@ type ReservationType = {
   reservedAt: Date;
   returnedAt?: Date; 
 };
+
+const PERMISSIONS = [
+  "create_book",
+  "update_book",
+  "disable_book",
+  "update_user",
+  "disable_user",
+] as const;
+type PermissionType = typeof PERMISSIONS[number];
+
 // DECLARE MODEL TYPE
 type UserType = {
   tdocument: string,
@@ -16,7 +26,7 @@ type UserType = {
   username: string,
   password: string,
   reservations: [ReservationType],
-  rol: string,
+  permissions: [ReservationType],
   isActive: boolean,
 };
 
@@ -28,7 +38,7 @@ const UserSchema = new Schema<UserType>({
   lname: {type: String, required: true},
   username: {type: String, required: true, unique:true},
   password: {type: String, required: true },
-  rol: {type: String,enum: ["admin", "person"], required: true},
+  permissions: {type: [String], enum: PERMISSIONS},
   reservations: { type :[
     {
       bookId: { type: String, ref: "User", required: true },

@@ -10,7 +10,7 @@ export const updateBookAction = async (req: Request) =>{
         const authID = req.user.id
         const targetID = req.params.name
 
-        if(req.user.rol !== "admin"){
+        if(!req.user.permissions.includes("update_book")){
             return {status: 403, data : {mesage: "No tienes permisos para modificar este libro"}}
         }
 

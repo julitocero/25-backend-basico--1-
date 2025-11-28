@@ -21,7 +21,7 @@ router.post("/login", loginUser);
  */
 
 // Obtener un usuario por ID (solo autenticado)
-router.get("/:id", auth, getUserById);
+router.get("/:id",getUserById);
 
 // Actualizar usuario (solo dueño o admin → se valida en el controlador)
 router.patch("/:id", auth, updateUser);

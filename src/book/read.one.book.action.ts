@@ -3,7 +3,12 @@ import { BookModel } from "./book.model";
 
 export const readBookAction = async (req: Request) => {
   try {
-    const book = await BookModel.findOne({ name: req.params.id });
+    const filter: any = {  name: req.params.name }
+    const includeInactives = req.query.includeInactive === "true";
+    if(!includeInactives){
+      filter.isActive =  true;
+    }
+    const book = await BookModel.findOne(filter);
 
     if (!book) return { status: 404, data: { message: "Libro no encontrado" } };
 
