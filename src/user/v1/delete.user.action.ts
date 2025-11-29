@@ -9,7 +9,6 @@ export const deleteUserAction = async (req: Request) => {
     const authId = req.user.id;
     const targetId = req.params.id;
 
-    // REGLA DEL PROFESOR
     if (authId !== targetId && !req.user.permissions.includes("disable_user")) {
       return {
         status: 403,
