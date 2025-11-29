@@ -1,9 +1,4 @@
-/**
- * TESTS DE LIBROS
- * - Basados en tus actions, tus rutas y tu modelo REAL
- * - Con MongoMemoryServer
- * - Con Supertest
- */
+
 
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
@@ -18,8 +13,6 @@ import { BookModel } from "./book.model";
 import { UserModel } from "../user/v1/user.model";
 
 import jwt from "jsonwebtoken";
-
-// Crear app igual que en server.ts
 function createApp() {
   const app = express();
   app.use(cors());
@@ -34,7 +27,7 @@ function createApp() {
 let app: any;
 let mongo: MongoMemoryServer;
 
-// Función para crear tokens de prueba
+
 function generateToken(payload: any) {
   return jwt.sign(payload, "testsecret", { expiresIn: "7d" });
 }
@@ -53,9 +46,6 @@ afterAll(async () => {
   await mongo.stop();
 });
 
-/* ---------------------------------------------
- *   TESTS — CREATE BOOK
- * --------------------------------------------- */
 describe("CREATE BOOK", () => {
   it("Debe crear un libro exitosamente", async () => {
     const token = generateToken({ id: "1", permissions: ["create_book"] });
@@ -114,9 +104,6 @@ describe("CREATE BOOK", () => {
   });
 });
 
-/* ---------------------------------------------
- *   TESTS — READ BOOKS
- * --------------------------------------------- */
 describe("READ BOOKS", () => {
   beforeAll(async () => {
     await BookModel.insertMany([
@@ -144,13 +131,9 @@ describe("READ BOOKS", () => {
     const res = await request(app).get("/api/v1/books?genero=Terror");
 
     expect(res.status).toBe(200);
-    expect(res.body.books.length).toBe(1); // solo activos
+    expect(res.body.books.length).toBe(1); 
   });
 });
-
-/* ---------------------------------------------
- *   TEST — READ ONE BOOK
- * --------------------------------------------- */
 describe("READ ONE BOOK", () => {
   it("Debe retornar un libro existente", async () => {
     const res = await request(app).get("/api/v1/books/Terror1");
@@ -169,9 +152,6 @@ describe("READ ONE BOOK", () => {
   });
 });
 
-/* ---------------------------------------------
- *   TEST — UPDATE BOOK
- * --------------------------------------------- */
 describe("UPDATE BOOK", () => {
   it("Debe actualizar un libro con permisos", async () => {
     const token = generateToken({ id: "1", permissions: ["update_book"] });
@@ -197,9 +177,6 @@ describe("UPDATE BOOK", () => {
   });
 });
 
-/* ---------------------------------------------
- *   TEST — DELETE BOOK
- * --------------------------------------------- */
 describe("DELETE BOOK", () => {
   it("Debe eliminar un libro con permisos", async () => {
     const token = generateToken({ id: "1", permissions: ["disable_book"] });
@@ -222,9 +199,6 @@ describe("DELETE BOOK", () => {
   });
 });
 
-/* ---------------------------------------------
- *   TEST — RESERVAR BOOK
- * --------------------------------------------- */
 describe("RESERVAR BOOK", () => {
 
   let token: string;
