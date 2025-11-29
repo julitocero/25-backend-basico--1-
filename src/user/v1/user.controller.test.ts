@@ -11,9 +11,6 @@ import { getUserAction } from "./read.user.action";
 import { updateUserAction } from "./update.user.actions";
 import { deleteUserAction } from "./delete.user.action";
 
-// ---------------------------
-// CONFIG TEST
-// ---------------------------
 
 let mongo: MongoMemoryServer;
 
@@ -32,12 +29,9 @@ beforeEach(async () => {
   await UserModel.deleteMany({});
 });
 
-// ---------------------------
-// PRUEBAS REGISTRO
-// ---------------------------
 
 describe("registerUserAction", () => {
-  test("✔ debe registrar un usuario", async () => {
+  test("debe registrar un usuario", async () => {
     const req: any = {
       body: {
         tdocument: "C.C",
@@ -54,19 +48,16 @@ describe("registerUserAction", () => {
     expect((result.data as any).user.username).toBe("juan");
   });
 
-  test("❌ debe fallar por falta de campos", async () => {
+  test("debe fallar por falta de campos", async () => {
     const req: any = { body: {} };
     const result = await registerUserAction(req);
     expect(result.status).toBe(400);
   });
 });
 
-// ---------------------------
-// PRUEBAS LOGIN
-// ---------------------------
 
 describe("loginUserAction", () => {
-  test("✔ login exitoso", async () => {
+  test("login exitoso", async () => {
     await UserModel.create({
       tdocument: "C.C",
       ndocument: "200",
@@ -85,13 +76,13 @@ describe("loginUserAction", () => {
     expect(result.data.token).toBeDefined();
   });
 
-  test("❌ usuario inexistente", async () => {
+  test("usuario inexistente", async () => {
     const req: any = { body: { username: "nadie", password: "123" } };
     const result = await loginUserAction(req);
     expect(result.status).toBe(404);
   });
 
-  test("❌ contraseña incorrecta", async () => {
+  test("contraseña incorrecta", async () => {
     await UserModel.create({
       tdocument: "C.C",
       ndocument: "201",
@@ -109,12 +100,8 @@ describe("loginUserAction", () => {
   });
 });
 
-// ---------------------------
-// PRUEBAS READ USER
-// ---------------------------
-
 describe("getUserAction", () => {
-  test("✔ retorna usuario activo", async () => {
+  test("retorna usuario activo", async () => {
     await UserModel.create({
       tdocument: "C.C",
       ndocument: "300",
@@ -131,7 +118,7 @@ describe("getUserAction", () => {
     expect(result.status).toBe(200);
   });
 
-  test("❌ no retorna usuario inactivo sin includeInactive", async () => {
+  test("no retorna usuario inactivo sin includeInactive", async () => {
     await UserModel.create({
       tdocument: "C.C",
       ndocument: "301",
@@ -148,13 +135,8 @@ describe("getUserAction", () => {
     expect(result.status).toBe(404);
   });
 });
-
-// ---------------------------
-// PRUEBAS UPDATE
-// ---------------------------
-
 describe("updateUserAction", () => {
-  test("✔ usuario actualiza su propio perfil", async () => {
+  test("usuario actualiza su propio perfil", async () => {
     await UserModel.create({
       tdocument: "C.C",
       ndocument: "400",
@@ -177,7 +159,7 @@ describe("updateUserAction", () => {
     expect((result.data as any).fname).toBe("MarioNuevo");
   });
 
-  test("❌ usuario sin permisos no puede actualizar a otro", async () => {
+  test("usuario sin permisos no puede actualizar a otro", async () => {
     const req: any = {
       params: { id: "401" },
       user: { id: "500", permissions: [] },
@@ -188,13 +170,8 @@ describe("updateUserAction", () => {
     expect(result.status).toBe(403);
   });
 });
-
-// ---------------------------
-// PRUEBAS DELETE
-// ---------------------------
-
 describe("deleteUserAction", () => {
-  test("✔ usuario puede inhabilitarse a sí mismo", async () => {
+  test("usuario puede inhabilitarse a sí mismo", async () => {
     await UserModel.create({
       tdocument: "C.C",
       ndocument: "500",
@@ -214,7 +191,7 @@ describe("deleteUserAction", () => {
     expect(result.status).toBe(200);
   });
 
-  test("❌ usuario no puede inhabilitar a otro sin permiso", async () => {
+  test("usuario no puede inhabilitar a otro sin permiso", async () => {
     const req: any = {
       params: { id: "501" },
       user: { id: "999", permissions: [] },
