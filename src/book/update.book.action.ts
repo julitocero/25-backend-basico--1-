@@ -6,13 +6,11 @@ export const updateBookAction = async (req: Request) =>{
         if(!req.user){
         return {status: 401, mesage: "Usuario no autenticado"}
         }
-
-        const authID = req.user.id
         const targetID = req.params.name
-
-        if(!req.user.permissions.includes("update_book")){
-            return {status: 403, data : {mesage: "No tienes permisos para modificar este libro"}}
-        }
+        console.log(req.user.permissions)
+        if (!req.user.permissions || !req.user.permissions.includes("update_book")) {
+  return {status: 403, data: {mesage: "No tienes permisos para modificar este libro"}};
+}
 
         const updatedBook = await BookModel.findOneAndUpdate({name: targetID}, req.body, {new:true})
 

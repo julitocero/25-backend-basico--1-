@@ -14,7 +14,7 @@ export const loginUserAction = async (req: Request) => {
     if (!valid) return { status: 401, data: { message: "Contraseña incorrecta" } };
 
     const token = jwt.sign(
-      { id: found.ndocument, rol: found.permissions },
+      { id: found.ndocument, permissions: found.permissions },
       process.env.JWT_SECRET as string,
       { expiresIn: "7d" }
     );

@@ -26,7 +26,7 @@ type UserType = {
   username: string,
   password: string,
   reservations: [ReservationType],
-  permissions: [ReservationType],
+  permissions: [PermissionType],
   isActive: boolean,
 };
 

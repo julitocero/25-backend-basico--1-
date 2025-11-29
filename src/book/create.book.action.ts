@@ -24,16 +24,10 @@ export const createBookAction  = async (req: Request) =>{
         )
         return(
             {
-                status: 200,
+                status: 201,
                 data: {
                     mesage: "Libro creado exitosamente",
-                    book: {
-                        id: newBook._id,
-                        autor: autor,
-                        editorial: editorial,
-                        genero: genero,
-                        publicacion: publicacion,
-                    }
+                    book: newBook
                 }
             }
         )

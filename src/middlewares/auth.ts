@@ -9,7 +9,7 @@ export const auth = (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string; rol: string };
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string; permissions: [string] };
     req.user = decoded; 
 
     next(); 

@@ -15,7 +15,7 @@ router.post("/create",auth ,createBook);
 
 router.post("/reservar",auth ,reservarBook);
 // Obtener un book por nombre
-router.get("/:id",readBook);
+router.get("/:name",readBook);
 
 router.get("/",readBooks);
 
@@ -23,6 +23,6 @@ router.get("/",readBooks);
 router.patch("/:name", auth, updateBook);
 
 // Inhabilitar book
-router.delete("/:id", auth, deleteBook);
+router.delete("/:name", auth, deleteBook);
 
 export default router;

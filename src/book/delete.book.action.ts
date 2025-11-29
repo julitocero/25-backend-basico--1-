@@ -8,9 +8,9 @@ export const deleteBookAction = async (req: Request) =>{
         if(!req.user){
             return {status: 401, data: {mesage: "Usuario no autenticado"}}
         }
-        const targetID = req.params.id
+        const targetID = req.params.name
 
-        if(req.user.permissions.includes("disable_book")){
+        if(!req.user.permissions.includes("disable_book")){
             return {status: 403, data:{mesage: "No tienes permisos para eliminar este libro"}}
         }
 
@@ -26,8 +26,4 @@ export const deleteBookAction = async (req: Request) =>{
     } catch (error) {
         return { status: 500, data: { message: "Error en servidor", error } };
     }
-        
-
-    
-
 }
